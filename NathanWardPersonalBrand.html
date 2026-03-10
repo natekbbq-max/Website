@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan Ward | @nate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0ea5e9;
+            --dark-blue: #0369a1;
+            --accent-blue: #38bdf8;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --bg-hover: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #27272a;
+            --gradient-blue: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(3, 105, 161, 0.04) 0%, transparent 40%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-2%, -2%) scale(1.05); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-icons i {
+            font-size: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-icons i:hover {
+            color: var(--primary-blue);
+            transform: scale(1.1);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            text-align: center;
+            padding: 20px 0 30px;
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+        }
+
+        .profile-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            animation: ringPulse 2s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+        }
+
+        .username {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .verified-badge {
+            background: var(--gradient-blue);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verified-badge i {
+            font-size: 10px;
+            color: white;
+        }
+
+        .handle {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Bio */
+        .bio {
+            padding: 0 10px;
+            margin-bottom: 24px;
+        }
+
+        .bio-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .bio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .bio-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bio-tag:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .bio-tag i {
+            margin-right: 6px;
+            color: var(--primary-blue);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-blue);
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-icon {
+            width: 48px;
+            flex: none;
+            padding: 14px;
+        }
+
+        /* Content Tabs */
+        .content-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-blue);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-blue);
+        }
+
+        .tab i {
+            font-size: 20px;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .content-item {
+            aspect-ratio: 9/12;
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .content-item:hover {
+            transform: scale(1.02);
+            z-index: 1;
+        }
+
+        .content-item:hover .content-overlay {
+            opacity: 1;
+        }
+
+        .content-thumbnail {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-hover) 100%);
+        }
+
+        .content-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .content-views {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: white;
+        }
+
+        /* Highlights Section */
+        .highlights-section {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .highlights-scroll {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .highlights-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .highlight-item {
+            flex: 0 0 auto;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .highlight-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-circle:hover {
+            border-color: var(--primary-blue);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
+        }
+
+        .highlight-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Social Links */
+        .social-section {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        /* Mobile Floating Action */
+        .floating-action {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.5);
+        }
+
+        .floating-action i {
+            font-size: 24px;
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stats {
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .bio {
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .action-buttons {
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .content-grid {
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+
+            .stats {
+                gap: 24px;
+            }
+
+            .bio-tag {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">NATE</div>
+            <div class="header-icons">
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-image-container">
+                <div class="profile-ring"></div>
+                <div class="profile-image">NW</div>
+            </div>
+            <h1 class="username">
+                Nathan Ward
+                <span class="verified-badge"><i class="fas fa-check"></i></span>
+            </h1>
+            <p class="handle">@nate.ward</p>
+        </section>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">127</div>
+                <div class="stat-label">Following</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2.4K</div>
+                <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">18.6K</div>
+                <div class="stat-label">Likes</div>
+            </div>
+        </div>
+
+        <!-- Bio -->
+        <div class="bio">
+            <p class="bio-text">
+                engineer brain, model aspirations ✨<br>
+                building code & building myself<br>
+                VA 📍
+            </p>
+            <div class="bio-tags">
+                <span class="bio-tag"><i class="fas fa-car"></i>Cars</span>
+                <span class="bio-tag"><i class="fas fa-gamepad"></i>Gaming</span>
+                <span class="bio-tag"><i class="fas fa-code"></i>Code</span>
+                <span class="bio-tag"><i class="fas fa-tshirt"></i>Fashion</span>
+                <span class="bio-tag"><i class="fas fa-spray-can"></i>Fragrance</span>
+                <span class="bio-tag"><i class="fas fa-dumbbell"></i>Lifting</span>
+                <span class="bio-tag"><i class="fas fa-camera"></i>Modeling</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Follow
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-comment"></i>
+                Message
+            </button>
+            <button class="btn btn-secondary btn-icon">
+                <i class="fas fa-share"></i>
+            </button>
+        </div>
+
+        <!-- Content Tabs -->
+        <div class="content-tabs">
+            <div class="tab active"><i class="fas fa-th"></i></div>
+            <div class="tab"><i class="fas fa-heart"></i></div>
+            <div class="tab"><i class="fas fa-bookmark"></i></div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <div class="content-item">
+                <div class="content-thumbnail">🏎️</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 4.2K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">💪</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 3.8K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">👔</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 2.1K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">🎮</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 5.6K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">💻</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 1.9K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">🧴</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 3.2K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">📸</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 6.1K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">🏋️</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 2.7K</div>
+                </div>
+            </div>
+            <div class="content-item">
+                <div class="content-thumbnail">🚗</div>
+                <div class="content-overlay">
+                    <div class="content-views"><i class="fas fa-play"></i> 4.5K</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Highlights Section -->
+        <section class="highlights-section">
+            <h3 class="section-title">Highlights</h3>
+            <div class="highlights-scroll">
+                <div class="highlight-item">
+                    <div class="highlight-circle">🏎️</div>
+                    <span class="highlight-label">Car Meets</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-circle">💪</div>
+                    <span class="highlight-label">Gains</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-circle">👃</div>
+                    <span class="highlight-label">Scents</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-circle">💻</div>
+                    <span class="highlight-label">Projects</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-circle">📸</div>
+                    <span class="highlight-label">Shoots</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-circle">🎮</div>
+                    <span class="highlight-label">Gaming</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Links -->
+        <section class="social-section">
+            <h3 class="section-title" style="text-align: center;">Connect</h3>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-snapchat"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Nathan Ward. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-action">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Animate stats on hover
+        const statNumbers = document.querySelectorAll('.stat-number');
+        statNumbers.forEach(stat => {
+            stat.addEventListener('mouseenter', () => {
+                stat.style.transform = 'scale(1.1)';
+                stat.style.color = '#0ea5e9';
+            });
+            stat.addEventListener('mouseleave', () => {
+                stat.style.transform = 'scale(1)';
+                stat.style.color = '#ffffff';
+            });
+        });
+
+        // Follow button interaction
+        const followBtn = document.querySelector('.btn-primary');
+        let isFollowing = false;
+        followBtn.addEventListener('click', () => {
+            isFollowing = !isFollowing;
+            if (isFollowing) {
+                followBtn.innerHTML = '<i class="fas fa-check"></i> Following';
+                followBtn.style.background = '#1a1a1a';
+                followBtn.style.border = '1px solid #0ea5e9';
+            } else {
+                followBtn.innerHTML = '<i class="fas fa-user-plus"></i> Follow';
+                followBtn.style.background = 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)';
+                followBtn.style.border = 'none';
+            }
+        });
+
+        // Content item click effect
+        const contentItems = document.querySelectorAll('.content-item');
+        contentItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    item.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Floating action button
+        const fab = document.querySelector('.floating-action');
+        fab.addEventListener('click', () => {
+            alert('Create new content!');
+        });
+
+        // Smooth scroll for highlights
+        const highlightsScroll = document.querySelector('.highlights-scroll');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        highlightsScroll.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - highlightsScroll.offsetLeft;
+            scrollLeft = highlightsScroll.scrollLeft;
+        });
+
+        highlightsScroll.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        highlightsScroll.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        highlightsScroll.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - highlightsScroll.offsetLeft;
+            const walk = (x - startX) * 2;
+            highlightsScroll.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>
